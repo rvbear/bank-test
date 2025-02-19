@@ -33,12 +33,12 @@ public class UserController {
 
         boolean success = responseUserDto != null;
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "회원가입 성공" : "회원가입 실패");
-        requestMap.put("userInfo", responseUserDto);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        responseMap.put("message", success ? "회원가입 성공" : "회원가입 실패");
+        responseMap.put("userInfo", responseUserDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     // 유저 전체조회
@@ -49,11 +49,11 @@ public class UserController {
 
         boolean success = !responseUserDaoList.isEmpty();
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "유저 전체조회 성공" : "유저 전체조회 실패");
-        requestMap.put("userList", responseUserDaoList);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        responseMap.put("message", success ? "유저 전체조회 성공" : "유저 전체조회 실패");
+        responseMap.put("userList", responseUserDaoList);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 }

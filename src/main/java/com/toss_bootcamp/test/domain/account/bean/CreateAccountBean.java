@@ -7,6 +7,7 @@ import com.toss_bootcamp.test.domain.account.domain.dto.RequestCreateAccountDto;
 import com.toss_bootcamp.test.domain.account.domain.dto.ResponseAccountDto;
 import com.toss_bootcamp.test.domain.account.domain.entity.AccountDao;
 import com.toss_bootcamp.test.domain.user.bean.small.GetUserDaoBean;
+import com.toss_bootcamp.test.domain.user.domain.entity.UserDao;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -26,14 +27,12 @@ public class CreateAccountBean {
     }
 
     // 계좌 개설
-    public ResponseAccountDto exec(RequestCreateAccountDto requestCreateAccountDto) throws Exception {
-        // 유저가 존재하는지 확인
-        if (getUserDaoBean.exec(requestCreateAccountDto.getUserId()) == null) {
-            throw new NoSuchElementException("존재하지 않는 유저입니다.");
-        }
+    public ResponseAccountDto exec(RequestCreateAccountDto requestCreateAccountDto) {
+        // 유저 불러오기
+        UserDao userDao = getUserDaoBean.exec(requestCreateAccountDto.getUserId());
 
         // 새 계좌 개설
-        AccountDao accountDao = createAccountDaoBean.exec(requestCreateAccountDto);
+        AccountDao accountDao = createAccountDaoBean.exec(userDao);
         saveAccountDaoBean.exec(accountDao);
 
         return createAccountDtoBean.exec(accountDao);

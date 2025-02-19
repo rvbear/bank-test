@@ -1,8 +1,6 @@
 package com.toss_bootcamp.test.domain.account.controller;
 
 import com.toss_bootcamp.test.domain.account.domain.dto.RequestCreateAccountDto;
-import com.toss_bootcamp.test.domain.account.domain.dto.RequestTransferAccountDto;
-import com.toss_bootcamp.test.domain.account.domain.dto.RequestUpdateAccountDto;
 import com.toss_bootcamp.test.domain.account.domain.dto.ResponseAccountDto;
 import com.toss_bootcamp.test.domain.account.domain.entity.AccountDao;
 import com.toss_bootcamp.test.domain.account.service.AccountService;
@@ -30,17 +28,17 @@ public class AccountController {
     // 계좌 생성
     @Operation(summary = "계좌 생성", description = "계좌를 생성합니다.")
     @PostMapping("")
-    public ResponseEntity<Map<String, Object>> createAccount(@RequestBody RequestCreateAccountDto requestCreateAccountDto) throws Exception {
+    public ResponseEntity<Map<String, Object>> createAccount(@RequestBody RequestCreateAccountDto requestCreateAccountDto) {
         ResponseAccountDto responseAccountDto = accountService.createAccount(requestCreateAccountDto);
 
         boolean success = responseAccountDto != null;
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "계좌 생성 성공" : "계좌 생성 실패");
-        requestMap.put("accountInfo", responseAccountDto);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        responseMap.put("message", success ? "계좌 생성 성공" : "계좌 생성 실패");
+        responseMap.put("accountInfo", responseAccountDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     // 전체 계좌 조회
@@ -51,12 +49,12 @@ public class AccountController {
 
         boolean success = !responseAccountDaoList.isEmpty();
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "모든 계좌 조회 성공" : "모든 계좌 조회 실패");
-        requestMap.put("accountInfo", responseAccountDaoList);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        responseMap.put("message", success ? "모든 계좌 조회 성공" : "모든 계좌 조회 실패");
+        responseMap.put("accountInfo", responseAccountDaoList);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     // 계좌 조회
@@ -67,43 +65,11 @@ public class AccountController {
 
         boolean success = accountDao != null;
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "계좌 조회 성공" : "계좌 조회 실패");
-        requestMap.put("accountInfo", accountDao);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        responseMap.put("message", success ? "계좌 조회 성공" : "계좌 조회 실패");
+        responseMap.put("accountInfo", accountDao);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
-    }
-
-    // 입금 & 출금
-    @Operation(summary = "입/출금", description = "자신의 계좌에서 입/출금을 진행합니다.")
-    @PutMapping("")
-    public ResponseEntity<Map<String, Object>> updateAccount(@RequestBody RequestUpdateAccountDto requestUpdateAccountDto) {
-        AccountDao accountDao = accountService.updateAccount(requestUpdateAccountDto);
-
-        boolean success = accountDao != null;
-
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "입/출금 성공" : "입/출금 실패");
-        requestMap.put("accountInfo", accountDao);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
-    }
-
-    // 송금
-    @Operation(summary = "송금", description = "자신의 계좌에서 다른 계좌로 송금을 진행합니다.")
-    @PostMapping("/transfer")
-    public ResponseEntity<Map<String, Object>> transferAccount(@RequestBody RequestTransferAccountDto requestTransferAccountDto) {
-        AccountDao accountDao = accountService.transferAccount(requestTransferAccountDto);
-
-        boolean success = accountDao != null;
-
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "송금 성공" : "송금 실패");
-        requestMap.put("accountInfo", accountDao);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 }

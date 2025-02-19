@@ -1,6 +1,8 @@
 package com.toss_bootcamp.test.domain.account.bean.small;
 
 import com.toss_bootcamp.test.domain.account.domain.entity.AccountDao;
+import com.toss_bootcamp.test.global.error.CustomException;
+import com.toss_bootcamp.test.global.error.ErrorCode;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +13,7 @@ public class UpdateAccountDaoBean {
 
         // 출금시 마이너스가 되면 출금 실패
         if (balance < 0) {
-            return null;
+            throw new CustomException(ErrorCode.INSUFFICIENT_BALANCE);
         }
 
         accountDao.setBalance(balance);
